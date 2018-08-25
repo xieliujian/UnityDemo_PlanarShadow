@@ -118,7 +118,7 @@ Shader "PlanarShadow/Player"
 
 				return o;
 			}
-
+			
 			float4 frag(v2f i) : SV_Target
 			{
 				float3 posToPlane_2 = (i.xlv_TEXCOORD0 - i.xlv_TEXCOORD1);
