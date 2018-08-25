@@ -107,12 +107,14 @@ Shader "PlanarShadow/Player"
 			{
 				v2f o;
 
-				float3 tmpvar_1 = normalize(_ShadowProjDir);
-				float3 tmpvar_2 = mul(unity_ObjectToWorld, v.vertex).xyz;
-				float3 tmpvar_3 = (tmpvar_2 - (((dot(_ShadowPlane.xyz, tmpvar_2) - _ShadowPlane.w) / dot(_ShadowPlane.xyz, tmpvar_1.xyz)) * tmpvar_1.xyz));
-				o.vertex = mul(unity_MatrixVP, float4(tmpvar_3, 1.0));
+				float3 lightdir = normalize(_ShadowProjDir);
+				float3 worldpos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				// _ShadowPlane.w = p0 * n  // 平面的w分量就是p0 * n
+				float distance = (_ShadowPlane.w - dot(_ShadowPlane.xyz, worldpos)) / dot(_ShadowPlane.xyz, lightdir.xyz);
+				worldpos = worldpos + distance * lightdir.xyz;
+				o.vertex = mul(unity_MatrixVP, float4(worldpos, 1.0));
 				o.xlv_TEXCOORD0 = _WorldPos.xyz;
-				o.xlv_TEXCOORD1 = tmpvar_3;
+				o.xlv_TEXCOORD1 = worldpos;
 
 				return o;
 			}
