@@ -88,6 +88,7 @@ public class Player : MonoBehaviour
             mat.SetVector("_ShadowProjDir", projdir);
             mat.SetVector("_ShadowPlane", new Vector4(0.0f, 1.0f, 0.0f, 0.1f));
             mat.SetVector("_ShadowFadeParams", new Vector4(0.0f, 1.5f, 0.7f, 0.0f));
+            mat.SetFloat("_ShadowFalloff", 1.35f);
         }
     }
 
